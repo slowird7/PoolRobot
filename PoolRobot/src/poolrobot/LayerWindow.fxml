@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane id="AnchorPane" fx:id="ap" prefHeight="210.0" prefWidth="338.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poolrobot.MatViewer">
+   <children>
+      <Rectangle fx:id="clickPoint" arcHeight="5.0" arcWidth="5.0" fill="YELLOW" height="8.0" layoutX="-4.0" layoutY="-4.0" stroke="BLACK" strokeType="INSIDE" width="8.0" />
+      <Line fx:id="pathToAimPoint" endX="100.0" startX="-100.0" />
+      <Line fx:id="pathToCushion" endX="100.0" layoutX="10.0" layoutY="10.0" startX="-100.0" />
+      <Line fx:id="pathToPocket" endX="100.0" layoutX="20.0" layoutY="20.0" startX="-100.0" />
+   </children>
+</AnchorPane>

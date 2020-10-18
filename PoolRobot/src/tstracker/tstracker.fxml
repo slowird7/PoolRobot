@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane id="AnchorPane" fx:id="ap" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="643.0" prefWidth="913.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tstracker.tstrackerController">
+   <children>
+      <Line fx:id="cursorLineH" layoutX="10.0" layoutY="60.0" stroke="RED" strokeWidth="2.0" visible="false" />
+      <Line fx:id="cursorLinev" layoutX="10.0" layoutY="60.0" stroke="RED" strokeWidth="2.0" visible="false" />
+      <ImageView fx:id="originalFrameView" layoutY="100.0" onMouseMoved="#onMouseMoved" onTouchMoved="#onFrameViewTouchMoved" onTouchPressed="#onFrameViewTouchPressed" onTouchReleased="#onFrameViewTouchReleased" pickOnBounds="true" preserveRatio="true" style="-fx-border-color: red;" />
+      <Group fx:id="ptSelGroup" layoutX="-0.7071067690849304" layoutY="-0.7071067690849304">
+         <children>
+            <Line fx:id="crossLineV" mouseTransparent="true" stroke="BLUE" visible="false" />
+            <Line id="tstracker" fx:id="crossLineH" mouseTransparent="true" stroke="BLUE" visible="false" />
+            <Rectangle fx:id="roiInit" arcHeight="5.0" arcWidth="5.0" fill="#0084f800" layoutX="0.7071067690849304" layoutY="50.70710676908493" stroke="#0084f8" strokeType="INSIDE" />
+         </children>
+      </Group>
+      <HBox fx:id="hbLocation" alignment="CENTER_LEFT" layoutX="1058.0" layoutY="62.0" minHeight="30.0" minWidth="200.0" style="-fx-background-color: #2f2f2f; -fx-background-radius: 5;" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="110.0">
+         <children>
+            <Label fx:id="coorLabel" style="-fx-font-size: 15;" text="Location:" textFill="#0084f8">
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </Label>
+         </children>
+      </HBox>
+      <StackPane fx:id="naviStack" layoutX="691.0" layoutY="154.0" minHeight="120.0" minWidth="120.0" onTouchPressed="#onNaviTouchPressed" onTouchReleased="#onNaviTouchReleased" prefHeight="200.0" prefWidth="220.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="154.0">
+         <children>
+            <Circle disable="true" fill="#282828" radius="100.0" stroke="#2f2f2f" strokeType="INSIDE" />
+            <Circle disable="true" fill="#2f2f2f" layoutX="120.0" layoutY="110.0" radius="90.0" stroke="#2f2f2f" strokeType="INSIDE" />
+            <Circle disable="true" fill="#c6c6c6" layoutX="120.0" layoutY="110.0" radius="60.0" stroke="#2f2f2f" strokeType="INSIDE" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" disable="true" fill="#2f2f2f" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+            <Button id="arrow-button" fx:id="downNavi" mnemonicParsing="false" onAction="#onDownFire" onMouseReleased="#onDownReleased" onTouchReleased="#onTouchDownReleased" onTouchStationary="#onTouchDown" pickOnBounds="false" prefHeight="55.0" prefWidth="55.0" style="-fx-shape: &quot;M286.935,69.377c-3.614-3.617-7.898-5.424-12.848-5.424H18.274c-4.952,0-9.233,1.807-12.85,5.424   C1.807,72.998,0,77.279,0,82.228c0,4.948,1.807,9.229,5.424,12.847l127.907,127.907c3.621,3.617,7.902,5.428,12.85,5.428   s9.233-1.811,12.847-5.428L286.935,95.074c3.613-3.617,5.427-7.898,5.427-12.847C292.362,77.279,290.548,72.998,286.935,69.377z&quot;;" StackPane.alignment="BOTTOM_CENTER">
+               <StackPane.margin>
+                  <Insets bottom="15.0" />
+               </StackPane.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button id="arrow-button" fx:id="upNavi" mnemonicParsing="false" onAction="#onUpFire" onMouseReleased="#onUpReleased" onTouchReleased="#onTouchUpReleased" onTouchStationary="#onTouchUp" pickOnBounds="false" prefHeight="55.0" prefWidth="55.0" style="-fx-shape: &quot;M286.935,69.377c-3.614-3.617-7.898-5.424-12.848-5.424H18.274c-4.952,0-9.233,1.807-12.85,5.424   C1.807,72.998,0,77.279,0,82.228c0,4.948,1.807,9.229,5.424,12.847l127.907,127.907c3.621,3.617,7.902,5.428,12.85,5.428   s9.233-1.811,12.847-5.428L286.935,95.074c3.613-3.617,5.427-7.898,5.427-12.847C292.362,77.279,290.548,72.998,286.935,69.377z&quot;; -fx-rotate: 180;" StackPane.alignment="TOP_CENTER">
+               <StackPane.margin>
+                  <Insets top="15.0" />
+               </StackPane.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button id="arrow-button" fx:id="rightNavi" mnemonicParsing="false" onAction="#onRightFire" onMouseReleased="#onRightReleased" onTouchReleased="#onTouchRightReleased" onTouchStationary="#onTouchRight" pickOnBounds="false" prefHeight="55.0" prefWidth="55.0" style="-fx-shape: &quot;M286.935,69.377c-3.614-3.617-7.898-5.424-12.848-5.424H18.274c-4.952,0-9.233,1.807-12.85,5.424   C1.807,72.998,0,77.279,0,82.228c0,4.948,1.807,9.229,5.424,12.847l127.907,127.907c3.621,3.617,7.902,5.428,12.85,5.428   s9.233-1.811,12.847-5.428L286.935,95.074c3.613-3.617,5.427-7.898,5.427-12.847C292.362,77.279,290.548,72.998,286.935,69.377z&quot;; -fx-rotate: 270;" StackPane.alignment="CENTER_RIGHT">
+               <StackPane.margin>
+                  <Insets right="25.0" />
+               </StackPane.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button id="arrow-button" fx:id="leftNavi" mnemonicParsing="false" onAction="#onLeftFire" onMouseReleased="#onLeftReleased" onTouchReleased="#onTouchLeftReleased" onTouchStationary="#onTouchLeft" pickOnBounds="false" prefHeight="55.0" prefWidth="55.0" style="-fx-shape: &quot;M286.935,69.377c-3.614-3.617-7.898-5.424-12.848-5.424H18.274c-4.952,0-9.233,1.807-12.85,5.424   C1.807,72.998,0,77.279,0,82.228c0,4.948,1.807,9.229,5.424,12.847l127.907,127.907c3.621,3.617,7.902,5.428,12.85,5.428   s9.233-1.811,12.847-5.428L286.935,95.074c3.613-3.617,5.427-7.898,5.427-12.847C292.362,77.279,290.548,72.998,286.935,69.377z&quot;; -fx-rotate: 90;" StackPane.alignment="CENTER_LEFT">
+               <StackPane.margin>
+                  <Insets left="25.0" />
+               </StackPane.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button id="arrow-button" fx:id="leftUpNavi" layoutX="93.0" layoutY="25.0" mnemonicParsing="false" onAction="#onLeftUpFire" onMouseReleased="#onLeftUpReleased" onTouchReleased="#onTouchLeftUpReleased" onTouchStationary="#onTouchLeftUp" pickOnBounds="false" prefHeight="40.0" prefWidth="40.0" style="-fx-shape: &quot;M286.935,69.377c-3.614-3.617-7.898-5.424-12.848-5.424H18.274c-4.952,0-9.233,1.807-12.85,5.424   C1.807,72.998,0,77.279,0,82.228c0,4.948,1.807,9.229,5.424,12.847l127.907,127.907c3.621,3.617,7.902,5.428,12.85,5.428   s9.233-1.811,12.847-5.428L286.935,95.074c3.613-3.617,5.427-7.898,5.427-12.847C292.362,77.279,290.548,72.998,286.935,69.377z&quot;; -fx-rotate: 135;" StackPane.alignment="TOP_LEFT">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <StackPane.margin>
+                  <Insets left="40.0" top="30.0" />
+               </StackPane.margin>
+            </Button>
+            <Button id="arrow-button" fx:id="rightUpNavi" layoutX="50.0" layoutY="40.0" mnemonicParsing="false" onAction="#onRightUpFire" onMousePressed="#onRightUpReleased" onTouchReleased="#onTouchRightUpReleased" onTouchStationary="#onTouchRightUp" pickOnBounds="false" prefHeight="40.0" prefWidth="40.0" style="-fx-shape: &quot;M286.935,69.377c-3.614-3.617-7.898-5.424-12.848-5.424H18.274c-4.952,0-9.233,1.807-12.85,5.424   C1.807,72.998,0,77.279,0,82.228c0,4.948,1.807,9.229,5.424,12.847l127.907,127.907c3.621,3.617,7.902,5.428,12.85,5.428   s9.233-1.811,12.847-5.428L286.935,95.074c3.613-3.617,5.427-7.898,5.427-12.847C292.362,77.279,290.548,72.998,286.935,69.377z&quot;; -fx-rotate: 225;" StackPane.alignment="TOP_RIGHT">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <StackPane.margin>
+                  <Insets right="40.0" top="30.0" />
+               </StackPane.margin>
+            </Button>
+            <Button id="arrow-button" fx:id="leftDownNavi" layoutX="150.0" layoutY="40.0" mnemonicParsing="false" onAction="#onLeftDownFire" onMouseReleased="#onLeftDownReleased" onTouchReleased="#onTouchLeftDownReleased" onTouchStationary="#onTouchLeftDown" pickOnBounds="false" prefHeight="40.0" prefWidth="40.0" style="-fx-shape: &quot;M286.935,69.377c-3.614-3.617-7.898-5.424-12.848-5.424H18.274c-4.952,0-9.233,1.807-12.85,5.424   C1.807,72.998,0,77.279,0,82.228c0,4.948,1.807,9.229,5.424,12.847l127.907,127.907c3.621,3.617,7.902,5.428,12.85,5.428   s9.233-1.811,12.847-5.428L286.935,95.074c3.613-3.617,5.427-7.898,5.427-12.847C292.362,77.279,290.548,72.998,286.935,69.377z&quot;; -fx-rotate: 45;" StackPane.alignment="BOTTOM_LEFT">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <StackPane.margin>
+                  <Insets bottom="30.0" left="40.0" />
+               </StackPane.margin>
+            </Button>
+            <Button id="arrow-button" fx:id="rightDownNavi" layoutX="50.0" layoutY="140.0" mnemonicParsing="false" onAction="#onRightDownFire" onMousePressed="#onRightDownReleased" onTouchReleased="#onTouchRightDownReleased" onTouchStationary="#onTouchRightDown" pickOnBounds="false" prefHeight="40.0" prefWidth="40.0" style="-fx-shape: &quot;M286.935,69.377c-3.614-3.617-7.898-5.424-12.848-5.424H18.274c-4.952,0-9.233,1.807-12.85,5.424   C1.807,72.998,0,77.279,0,82.228c0,4.948,1.807,9.229,5.424,12.847l127.907,127.907c3.621,3.617,7.902,5.428,12.85,5.428   s9.233-1.811,12.847-5.428L286.935,95.074c3.613-3.617,5.427-7.898,5.427-12.847C292.362,77.279,290.548,72.998,286.935,69.377z&quot;; -fx-rotate: 315;" StackPane.alignment="BOTTOM_RIGHT">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <StackPane.margin>
+                  <Insets bottom="30.0" right="40.0" />
+               </StackPane.margin>
+            </Button>
+         </children>
+      </StackPane>
+      <Rectangle fx:id="ROI" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" stroke="BLACK" strokeType="INSIDE" />
+      <HBox layoutX="25.0" layoutY="14.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="702.0" style="-fx-border-color: black;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ToggleButton id="tstracker" fx:id="btnCamera" mnemonicParsing="false" onAction="#onBtnCameraClicked" text="%カメラ開始">
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </HBox.margin>
+            </ToggleButton>
+            <ToggleButton id="tstracker" fx:id="btnTracking" mnemonicParsing="false" onAction="#onBtnTrackingClicked" text="%追尾開始">
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </HBox.margin>
+            </ToggleButton>
+            <Button fx:id="btnSight" disable="true" mnemonicParsing="false" onAction="#onBtnSightClicked" text="%照準調整">
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnTarget" disable="true" mnemonicParsing="false" onAction="#onBtnTargetClicked" text="領域選択">
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnCollimateAxis" disable="true" layoutX="378.0" layoutY="15.0" mnemonicParsing="false" onAction="#onBtnCollimateAxisClicked" text="杭軸視準">
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnOK" disable="true" mnemonicParsing="false" text="%決定">
+               <HBox.margin>
+                  <Insets bottom="4.0" left="20.0" right="4.0" top="4.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnCancel" disable="true" mnemonicParsing="false" text="%取消">
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnZoomIn" disable="true" layoutX="610.0" layoutY="15.0" mnemonicParsing="false" onAction="#onBtnZoomInClicked" text="拡大">
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnZoomOut" disable="true" layoutX="691.0" layoutY="15.0" mnemonicParsing="false" onAction="#onBtnZoomOutClicked" text="縮小">
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnTest" layoutX="820.0" layoutY="15.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onBtnTestClicked" prefHeight="40.0" prefWidth="10.0" text="test">
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </HBox.margin>
+            </Button>
+            <HBox fx:id="batteryInfoBox" alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="39.0" spacing="10.0">
+               <children>
+                  <Label fx:id="currentBattLevel" prefHeight="27.0" prefWidth="0.0" />
+                  <ImageView fx:id="batteryIcon" fitHeight="25.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+               </padding>
+            </HBox>
+         </children>
+      </HBox>
+      <ImageView fx:id="targetImageView" layoutX="14.0" layoutY="337.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" />
+      <HBox alignment="CENTER_LEFT" layoutY="48.0" prefHeight="50.0" prefWidth="702.0" style="-fx-border-color: black;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Label text="エッジ" />
+            <TextField fx:id="txtEdge" prefHeight="31.0" prefWidth="70.0">
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </HBox.margin>
+            </TextField>
+            <Slider fx:id="sldCannyThreshold" majorTickUnit="100.0" minorTickCount="1" onDragDone="#onSldCannyThresholdChanged" prefHeight="30.0" prefWidth="171.0" showTickMarks="true" value="100.0" />
+            <Label text="線長" />
+            <TextField fx:id="txtLineLenMin" layoutX="53.0" layoutY="20.0" prefHeight="31.0" prefWidth="70.0">
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </HBox.margin>
+            </TextField>
+            <CheckBox fx:id="cbAutoAdjustMinLineLength" mnemonicParsing="false" />
+            <Slider fx:id="sldMinLineLength" blockIncrement="1.0" majorTickUnit="100.0" max="300.0" minorTickCount="4" onDragDone="#onSldMinLinLengthChanged" prefHeight="40.0" prefWidth="149.0" showTickMarks="true" />
+            <CheckBox fx:id="cbAutoAdjustPileDiameterInPixel" mnemonicParsing="false" />
+            <Label layoutX="236.0" layoutY="18.0" text="P径" />
+            <TextField fx:id="txtPileDiameterInPixel" layoutX="342.0" layoutY="20.0" prefHeight="31.0" prefWidth="70.0">
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </HBox.margin>
+            </TextField>
+            <Slider fx:id="sldPileDiameter" blockIncrement="1.0" layoutX="89.0" layoutY="11.0" majorTickUnit="50.0" max="200.0" min="5.0" minorTickCount="4" onDragDone="#onSldPileDiameterChanged" prefHeight="40.0" prefWidth="164.0" showTickMarks="true" value="1.0" />
+         </children>
+      </HBox>
+      <Pane fx:id="mediaController" layoutX="25.0" layoutY="522.0" prefHeight="40.0" prefWidth="709.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+         <children>
+            <Slider fx:id="sldMediaSeeker" layoutX="87.0" layoutY="-4.0" majorTickUnit="100.0" minorTickCount="10" onDragDone="#onSldMediaSeekerChanged" prefHeight="31.0" prefWidth="592.0" showTickLabels="true" showTickMarks="true" />
+            <ToggleButton fx:id="btnPause" layoutY="5.0" mnemonicParsing="false" onAction="#onBtnPauseClicked" prefHeight="31.0" prefWidth="72.0" text="Pause" />
+         </children>
+      </Pane>
+      <TextField fx:id="txtErrorX" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="123.0" prefHeight="31.0" prefWidth="85.0" />
+      <TextField fx:id="txtErrorY" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="167.0" prefHeight="31.0" prefWidth="85.0" />
+      <TextField fx:id="txtScore" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="213.0" prefHeight="31.0" prefWidth="85.0" />
+      <CheckBox fx:id="chkDispCannyImage" layoutX="20.0" layoutY="265.0" mnemonicParsing="false" onAction="#onChkDispCannyChanged" text="エッジイメージ" />
+      <CheckBox fx:id="chkDispGuideLine" layoutX="20.0" layoutY="295.0" mnemonicParsing="false" text="ガイドライン" />
+      <CheckBox fx:id="cbLockHorizontal" layoutX="703.0" layoutY="368.0" mnemonicParsing="false" text="方位固定" AnchorPane.rightAnchor="122.0" AnchorPane.topAnchor="368.0" />
+      <CheckBox fx:id="cbLockVertical" layoutX="829.0" layoutY="368.0" mnemonicParsing="false" text="高さ固定" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="368.0" />
+      <VBox alignment="CENTER" layoutX="705.0" layoutY="404.0" prefWidth="192.0" spacing="10.0" style="-fx-background-color: #2f2f2f; -fx-background-radius: 5;" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="404.0">
+         <children>
+            <Label fx:id="rotationSpeed" prefHeight="27.0" prefWidth="180.0" text="遅い      旋回       速い" textFill="#aba9a9" />
+            <Slider fx:id="rotationSpeedSlider" blockIncrement="0.0" majorTickUnit="5.0" max="60.0" maxHeight="216.0" minorTickCount="0" prefWidth="31.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Slider>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" top="5.0" />
+         </padding>
+      </VBox>
+      <Rectangle fx:id="indicatorMeasureHeightRed" arcHeight="5.0" arcWidth="5.0" fill="RED" height="30.0" layoutX="82.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="464.0" />
+      <Rectangle fx:id="indicatorMeasureHeightGreen" arcHeight="5.0" arcWidth="5.0" fill="LIME" height="30.0" layoutX="82.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="464.0" />
+   </children>
+</AnchorPane>
