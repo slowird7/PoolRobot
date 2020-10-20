@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" fx:id="ap" prefHeight="391.0" prefWidth="463.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poolfilter_t.MainWindowController">
+   <children>
+      <Slider fx:id="sldHueBegin" blockIncrement="2.0" layoutX="137.0" layoutY="39.0" max="180.0" prefHeight="14.0" prefWidth="310.0" />
+      <Label layoutX="16.0" layoutY="38.0" text="Hue(begin)" />
+      <Slider fx:id="sldHueEnd" blockIncrement="2.0" layoutX="137.0" layoutY="64.0" max="180.0" prefHeight="14.0" prefWidth="310.0" value="180.0" />
+      <Label layoutX="16.0" layoutY="63.0" text="Hue(end)" />
+      <Slider fx:id="sldSatMin" blockIncrement="2.0" layoutX="137.0" layoutY="91.0" max="255.0" prefHeight="14.0" prefWidth="310.0" />
+      <Label layoutX="16.0" layoutY="90.0" text="Sat.(min)" />
+      <Slider fx:id="sldSatMax" blockIncrement="2.0" layoutX="137.0" layoutY="116.0" max="255.0" prefHeight="14.0" prefWidth="310.0" value="255.0" />
+      <Label layoutX="16.0" layoutY="115.0" text="Sat.(max)" />
+      <Slider fx:id="sldValMin" blockIncrement="2.0" layoutX="137.0" layoutY="140.0" max="255.0" prefHeight="14.0" prefWidth="310.0" />
+      <Label layoutX="16.0" layoutY="139.0" text="Val.(min)" />
+      <Slider fx:id="sldValMax" blockIncrement="2.0" layoutX="137.0" layoutY="165.0" max="255.0" prefHeight="14.0" prefWidth="310.0" value="255.0" />
+      <Label layoutX="16.0" layoutY="164.0" text="Val.(max)" />
+      <TextField fx:id="txtProjectName" layoutX="82.0" layoutY="2.0" prefHeight="25.0" prefWidth="157.0" />
+      <Label layoutX="16.0" layoutY="6.0" text="project" />
+      <Button fx:id="btnLoad" layoutX="253.0" layoutY="2.0" mnemonicParsing="false" onAction="#onBtLoadImageClicked" text="LoadImage" />
+      <Button fx:id="btnSave" layoutX="370.0" layoutY="2.0" mnemonicParsing="false" onAction="#onBtSaveClicked" text="Save" />
+      <ScrollPane layoutY="236.0" prefHeight="155.0" prefWidth="463.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="236.0">
+         <content>
+            <Pane fx:id="sp" prefHeight="149.0" prefWidth="419.0">
+               <children>
+                  <ImageView fx:id="imageView" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </Pane>
+         </content>
+      </ScrollPane>
+      <TextField fx:id="txtHueBegin" layoutX="81.0" layoutY="34.0" prefHeight="25.0" prefWidth="47.0" />
+      <TextField fx:id="txtHueEnd" layoutX="81.0" layoutY="59.0" prefHeight="25.0" prefWidth="47.0" />
+      <TextField fx:id="txtSatMin" layoutX="81.0" layoutY="86.0" prefHeight="25.0" prefWidth="47.0" />
+      <TextField fx:id="txtSatMax" layoutX="81.0" layoutY="111.0" prefHeight="25.0" prefWidth="47.0" />
+      <TextField fx:id="txtValMin" layoutX="81.0" layoutY="135.0" prefHeight="25.0" prefWidth="47.0" />
+      <TextField fx:id="txtValMax" layoutX="81.0" layoutY="160.0" prefHeight="25.0" prefWidth="47.0" />
+      <Button fx:id="btnLoad1" layoutX="328.0" layoutY="2.0" mnemonicParsing="false" onAction="#onBtLoadClicked" text="Load" />
+      <ToggleButton fx:id="btnSwitch" layoutX="411.0" layoutY="2.0" mnemonicParsing="false" onAction="#onBtnSwitchClicked" text="Switch" />
+      <Slider fx:id="sldParam1" blockIncrement="2.0" layoutX="137.0" layoutY="190.0" prefHeight="14.0" prefWidth="310.0" value="50.0" />
+      <Label layoutX="16.0" layoutY="189.0" text="Param1" />
+      <TextField fx:id="txtParam1" layoutX="81.0" layoutY="185.0" prefHeight="25.0" prefWidth="47.0" />
+      <Slider fx:id="sldParam2" blockIncrement="2.0" layoutX="137.0" layoutY="215.0" max="60.0" prefHeight="14.0" prefWidth="310.0" value="30.0" />
+      <Label layoutX="16.0" layoutY="214.0" text="Param2" />
+      <TextField fx:id="txtParam2" layoutX="81.0" layoutY="210.0" prefHeight="25.0" prefWidth="47.0" />
+   </children>
+</AnchorPane>

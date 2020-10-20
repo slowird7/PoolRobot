@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="PoolFilter_t.jnlp">
+  <information>
+    <title>PoolFilter_t</title>
+    <vendor>otsuka</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="PoolFilter_t.jar" size="11945" download="eager" />
+    <jar href="lib\jna-4.4.0.jar" size="1091208" download="eager" />
+    <jar href="lib\jna-platform-4.4.0.jar" size="2281814" download="eager" />
+    <jar href="lib\opencv-341.jar" size="423917" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="800" height="600" main-class="poolfilter_t.PoolFilter_t"  name="PoolFilter_t" />
+  <update check="always"/>
+</jnlp>
