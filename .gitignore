@@ -1,2 +1,12 @@
-/PoolRobot/build/
-/PoolRobot/dist/
+
+PoolFilter_t/nbproject/build-impl.xml
+PoolFilter_t/nbproject/configs/Run_as_WebStart.properties
+PoolFilter_t/nbproject/configs/Run_in_Browser.properties
+PoolFilter_t/nbproject/genfiles.properties
+PoolFilter_t/nbproject/jfx-impl.xml
+PoolFilter_t/nbproject/private/configs/Run_as_WebStart.properties
+PoolFilter_t/nbproject/private/configs/Run_in_Browser.properties
+PoolFilter_t/nbproject/private/private.properties
+PoolFilter_t/nbproject/private/private.xml
+PoolFilter_t/nbproject/project.properties
+PoolFilter_t/nbproject/project.xml

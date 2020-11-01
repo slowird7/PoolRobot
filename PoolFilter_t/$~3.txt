@@ -1,9 +1,0 @@
-#
-#Sun Sep 13 00:53:34 JST 2020
-
-satMin=233.46283783783784
-hueBegin=0.0
-valMax=255.0
-satMax=255.0
-hueEnd=6.689189189189186
-valMin=0.0
