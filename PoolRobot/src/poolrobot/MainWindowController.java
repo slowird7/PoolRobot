@@ -29,6 +29,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Point3D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -290,10 +291,13 @@ public class MainWindowController implements Initializable {
         System.out.println("makePlan.captureScreen");
         captureScreen();
         System.out.println("makePlan.recognizeBallInTopView");
-        for (int i = 0; i <= 5; i++) {
-            tool.recognizeBallInTopView(Ball.balls[i], matResult);
+        Mat matScreen = Screen.getPoolMat();
+        // for debug
+        for (int i = 0; i < Ball.NO_OF_BALLS; i++) {
+            tool.recognizeBallInTopView(Ball.balls[i], matScreen, matResult);
+            Imgcodecs.imwrite(String.format("dadada%d.png", i), matScreen);
         }
-
+/*
         System.out.println("makePlan.findExecutablePlans");
         List<Plan> plans = tool.findExecutablePlans();
         lstPlan.getItems().clear();
@@ -305,6 +309,7 @@ public class MainWindowController implements Initializable {
             System.out.println("makePlan.makeCall");
             makeCall();
         }
+*/
     }
 
     private void makeCall() {
@@ -387,11 +392,12 @@ public class MainWindowController implements Initializable {
         Screen.switchToTopView();
         captureScreen();
         if (Screen.isTopView()) {
-            for (int i = 0; i <= 5; i++) {
-                tool.recognizeBallInTopView(Ball.balls[i], matResult);
+            Mat matScreen = Screen.getPoolMat();
+            for (int i = 0; i < Ball.NO_OF_BALLS; i++) {
+                tool.recognizeBallInTopView(Ball.balls[i], matScreen, matResult);
             }
         } else {
-            for (int i = 0; i <= 5; i++) {
+            for (int i = 0; i < Ball.NO_OF_BALLS; i++) {
                 tool.recognizeBallInParseView(Ball.balls[i], matResult);
             }
         }

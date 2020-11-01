@@ -176,44 +176,7 @@ public class Tool extends Robot {
      * @param rayon
      * @return
      */
-    public Point3D[] detectBallsBinary(Mat matScreen, double threshMin, double threshMax, Mat result) {
-//        Mat imgGray = new Mat();
-        Mat circles = new Mat();
-        Mat matScreenGray = new Mat();
-        Mat matScreenBinary = new Mat();
-        Point3D[] circlesList = null;
-
-        Imgproc.cvtColor(matScreen, matScreenGray, Imgproc.COLOR_BGR2GRAY);
-        Imgproc.threshold(matScreenGray, matScreenBinary, threshMin, 255, THRESH_TOZERO);
-        Imgproc.threshold(matScreenBinary, matScreenBinary, threshMax, 255, THRESH_TOZERO_INV);
-        Imgproc.cvtColor(matScreenBinary, result, Imgproc.COLOR_GRAY2BGR);
-
-//        Imgproc.HoughCircles(matScreenGray, circles, Imgproc.CV_HOUGH_GRADIENT, 1, 60, 200, 50, 5, 40);
-//
-//        System.out.println("#rows " + circles.rows() + " #cols " + circles.cols());
-//        circlesList = new Point3D[circles.cols()];
-//        for (int i = 0; i < circles.cols(); i++) {
-//            double[] vCircle = circles.get(0, i);
-//
-//            Point3D pt = new Point3D(Math.round(vCircle[0]), Math.round(vCircle[1]), (int) Math.round(vCircle[2]));
-//            circlesList[i] = pt;
-//            Imgproc.circle(result, new Point(), (int) Math.round(vCircle[2]), new Scalar(0, 255, 0));
-//        }
-        return circlesList;
-    }
-
-    public Ball recognizeBallInTopView(Ball ball, Mat result) {
-        System.out.println("recognizeBallInTopView>");
-        Screen.switchToTopView();
-        Mat matScreen = Screen.getPoolMat();
-        // Extracvt ball contour;
-        double hueBegin = Double.valueOf(ball.prop.getProperty("top.hueBegin"));
-        double hueEnd = Double.valueOf(ball.prop.getProperty("top.hueEnd"));
-        double satMin = Double.valueOf(ball.prop.getProperty("top.satMin"));
-        double satMax = Double.valueOf(ball.prop.getProperty("top.satMax"));
-        double valMin = Double.valueOf(ball.prop.getProperty("top.valMin"));
-        double valMax = Double.valueOf(ball.prop.getProperty("top.valMax"));
-
+    private void colorFilter(Mat matScreen, double hueBegin, double hueEnd, double satMin, double valMin, double satMax, double valMax) {
         Imgproc.cvtColor(matScreen, imageHSV, Imgproc.COLOR_BGR2HSV);
         if (hueBegin <= hueEnd) {
             Core.inRange(imageHSV, new Scalar(hueBegin, satMin, valMin), new Scalar(hueEnd, satMax, valMax), imageResult);
@@ -224,17 +187,31 @@ public class Tool extends Robot {
             Core.inRange(imageHSV, new Scalar(0, satMin, valMin), new Scalar(hueEnd, satMax, valMax), upper);
             Core.add(lower, upper, imageResult);
         }
+    }
+
+    public Ball recognizeBallInTopView(Ball ball, Mat matScreen, Mat result) {
+        System.out.println("recognizeBallInTopView>" + ball.ballNo);
+        Screen.switchToTopView();
+
+        // Extracvt ball contour;
+        double hueBegin = Double.valueOf(ball.prop.getProperty("top.hueBegin"));
+        double hueEnd = Double.valueOf(ball.prop.getProperty("top.hueEnd"));
+        double satMin = Double.valueOf(ball.prop.getProperty("top.satMin"));
+        double satMax = Double.valueOf(ball.prop.getProperty("top.satMax"));
+        double valMin = Double.valueOf(ball.prop.getProperty("top.valMin"));
+        double valMax = Double.valueOf(ball.prop.getProperty("top.valMax"));
+
+        colorFilter(matScreen, hueBegin, hueEnd, satMin, valMin, satMax, valMax);
 
         // detect circle
+        recognizeBallByFindContour(ball);
+
+/*
         Mat circles = new Mat();
-        Point3D[] circlesList = null;
         Imgproc.HoughCircles(imageResult, circles, Imgproc.CV_HOUGH_GRADIENT, 1, 10, 200, 8, 8, 12);
-        circlesList = new Point3D[circles.cols()];
         for (int i = 0; i < circles.cols(); i++) {
             double[] vCircle = circles.get(0, i);
             Point3D pt = new Point3D(vCircle[0], vCircle[1], vCircle[2]);
-            circlesList[i] = pt;
-//            Imgproc.circle(result, new Point(), (int) Math.round(vCircle[2]), new Scalar(0, 255, 0));
         }
         System.out.println("recognizeBallInTopView>plot");
         if (circles.cols() > 0) {
@@ -249,11 +226,20 @@ public class Tool extends Robot {
             ball.sr = Ball.BallSize;
             ball.hide();
         }
-        System.out.println("recognizeBallInTopView<");
+*/
+        // erase the ball from mat;
+        Imgproc.circle​(matScreen, new Point(ball.sx, ball.sy), (int)ball.sr+2, new Scalar(0, 0, 0), -1);
+        if (ball.sx > 0) {
+            ball.showInTopView();
+        } else {
+            ball.hide();
+        }
         return ball;
     }
 
     public Ball recognizeBallInParseView(Ball ball, Mat result) {
+
+        Screen.switchToPerseView();
 
         // Extracvt ball contour;
         double hueBegin = Double.valueOf(ball.prop.getProperty("parse.hueBegin"));
@@ -263,24 +249,15 @@ public class Tool extends Robot {
         double valMin = Double.valueOf(ball.prop.getProperty("parse.valMin"));
         double valMax = Double.valueOf(ball.prop.getProperty("parse.valMax"));
 
-        Screen.switchToPerseView();
         Mat matScreen = Screen.getPoolMat();
-        Imgproc.cvtColor(matScreen, imageHSV, Imgproc.COLOR_BGR2HSV);
-        if (hueBegin <= hueEnd) {
-            Core.inRange(imageHSV, new Scalar(hueBegin, satMin, valMin), new Scalar(hueEnd, satMax, valMax), imageResult);
-        } else {
-            Mat upper = new Mat();
-            Mat lower = new Mat();
-            Core.inRange(imageHSV, new Scalar(hueBegin, satMin, valMin), new Scalar(180, satMax, valMax), lower);
-            Core.inRange(imageHSV, new Scalar(0, satMin, valMin), new Scalar(hueEnd, satMax, valMax), upper);
-            Core.add(lower, upper, imageResult);
-        }
+        colorFilter(matScreen, hueBegin, hueEnd, satMin, valMin, satMax, valMax);
         // for debug
         //Imgproc.cvtColor(imageResult, result, Imgproc.COLOR_HSV2BGR);
         imageResult.copyTo(result);
 
 //        detectBallByHoughcircles(ball);
         recognizeBallByFindContour(ball);
+        Imgproc.circle​(matScreen, new Point(ball.sx, ball.sy), (int)ball.sr, new Scalar(0, 0, 0));
         if (ball.sx > 0) {
             ball.showInTopView();
         } else {
@@ -326,7 +303,7 @@ public class Tool extends Robot {
             ball.sx = center.x;
             ball.sy = center.y;
             ball.sr = radius[0];
-            ball.showInPerseView();
+//            ball.showInPerseView();
         } else {
             ball.sx = 0;
             ball.sy = 0;
@@ -567,7 +544,7 @@ public class Tool extends Robot {
      * @return ballNo 障害となる球の番号
      */
     public int detectObstacleBallOnTheWayToTargetPoint(Point2D aimPoint, int targetBallNo) {
-        for (int ballNo = 1; ballNo <= 5; ballNo++) {
+        for (int ballNo = 1; ballNo < Ball.NO_OF_BALLS; ballNo++) {
 // 2020.09.30 手玉から見て的玉の向こう側の面が狙い点となるケースがあるので、的玉との干渉もチェックしないといけない
 //            if (ballNo == targetBallNo) continue;
             Ball ball = Ball.balls[ballNo];
@@ -595,7 +572,7 @@ public class Tool extends Robot {
         // vec2Target : 的玉からポケットに向かうベクトル
         Point2D vec2Pocket = new Point2D(pocket.sx - target.sx, pocket.sy - target.sy);
 
-        for (int ballNo = 1; ballNo <= 5; ballNo++) {
+        for (int ballNo = 1; ballNo < Ball.NO_OF_BALLS; ballNo++) {
             // ボールの鏡像を計算
 //            if (ballNo == targetBallNo) {
 //                continue;
@@ -693,7 +670,7 @@ public class Tool extends Robot {
         int theBestBallNo = -1;
         int theBestPocketNo = -1;
 
-        for (int ballNo = 1; ballNo <= 5; ballNo++) {
+        for (int ballNo = 1; ballNo < Ball.NO_OF_BALLS; ballNo++) {
             Ball ball = Ball.balls[ballNo];
             if (ball.sx == 0 || ball.sy == 0) {
                 continue;

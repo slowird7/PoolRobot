@@ -15,7 +15,9 @@ import javafx.geometry.Point2D;
 import org.opencv.core.Core;
 import org.opencv.core.Core.MinMaxLocResult;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
 import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
 import static org.opencv.imgcodecs.Imgcodecs.imread;
 import org.opencv.imgproc.Imgproc;
 import static poolrobot.OpenCvUtils.bufferedImage2Mat;
@@ -67,7 +69,10 @@ public class Screen {
     }
     
     public static Mat getPoolMat() {
-            return new Mat(getScreenMat(), new Rect(0, 0, 970, 650));
+        Mat poolMat = new Mat(getScreenMat(), new Rect(0, 0, 970, 650));
+        Imgproc.rectangle(poolMat, new Point(0,0), new Point(poolMat.width(), 94), new Scalar(0, 0, 0), -1);
+        Imgproc.rectangle(poolMat, new Point(0,598), new Point(poolMat.width(), poolMat.height()), new Scalar(0, 0, 0), -1);
+        return poolMat;
     }
     
     public static void waitStill() {

@@ -33,15 +33,16 @@ public class Ball {
     public static Ball[] balls;
     public static Ball cueBall;
     public static Mat ballMask;
+    public static final int NO_OF_BALLS = 10;
     
     public static final double BallSize = 11;
     
     public Properties prop;
     
     public static void initBalls() {
-        balls = new Ball[6];
+        balls = new Ball[NO_OF_BALLS];
         Ball newBall;
-        for (int ballNo=0; ballNo <= 5; ballNo++) {
+        for (int ballNo=0; ballNo < NO_OF_BALLS; ballNo++) {
             newBall = new Ball(ballNo, 0., 0., 0., Integer.toString(ballNo), String.format("image/b%02d.png",ballNo));
             balls[ballNo] = newBall;
         }
@@ -57,7 +58,7 @@ public class Ball {
         sx = x;
         sy = y;
         sr = r;
-        imageMat = imread(imageFile, 1);
+//        imageMat = imread(imageFile, 1);
         a = new Label(label);
         a.setTextFill(Color.BLACK);
         contour = new Circle(sx, sy, sr);
