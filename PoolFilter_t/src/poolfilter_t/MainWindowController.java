@@ -80,6 +80,8 @@ public class MainWindowController implements Initializable {
     private Button btnSave;
     @FXML
     private Button btnSaveAs;
+    @FXML
+    private ToggleButton btnParse;
     
     @FXML
     private TextField txtHueBegin;
@@ -224,20 +226,33 @@ public class MainWindowController implements Initializable {
         }
     }
     
+    @FXML
+    private void onBtnParseClicked(ActionEvent ev) {
+        updateImage();
+
+    }
+    
     private void loadParameter(File parameterFile) {
         try {
             parameters.load(new BufferedReader(new FileReader(parameterFile)));
-            sldHueBegin.setValue(Double.parseDouble( parameters.getProperty("hueBegin", "0")));
-            sldHueEnd.setValue(Double.parseDouble( parameters.getProperty("hueEnd", "180")));
-            sldSatMin.setValue(Double.parseDouble( parameters.getProperty("satMin", "0")));
-            sldSatMax.setValue(Double.parseDouble( parameters.getProperty("satMax", "255")));
-            sldValMin.setValue(Double.parseDouble( parameters.getProperty("valMin", "0")));
-            sldValMax.setValue(Double.parseDouble( parameters.getProperty("valMax", "255")));
-            sldParam1.setValue(Double.parseDouble( parameters.getProperty("param1", "50")));
-            sldParam2.setValue(Double.parseDouble( parameters.getProperty("param2", "30")));
         } catch (IOException e) {
             // ファイル読み込みに失敗
             System.out.println(String.format("ファイルの読み込みに失敗しました。ファイル名:%s", parameterFile.getAbsoluteFile()));
+        }
+        if (btnParse.isSelected()) {
+            sldHueBegin.setValue(Double.parseDouble( parameters.getProperty("parse.hueBegin", "0")));
+            sldHueEnd.setValue(Double.parseDouble( parameters.getProperty("parse.hueEnd", "180")));
+            sldSatMin.setValue(Double.parseDouble( parameters.getProperty("parse.satMin", "0")));
+            sldSatMax.setValue(Double.parseDouble( parameters.getProperty("parse.satMax", "255")));
+            sldValMin.setValue(Double.parseDouble( parameters.getProperty("parse.valMin", "0")));
+            sldValMax.setValue(Double.parseDouble( parameters.getProperty("parse.valMax", "255")));
+        } else {
+            sldHueBegin.setValue(Double.parseDouble( parameters.getProperty("top.hueBegin", "0")));
+            sldHueEnd.setValue(Double.parseDouble( parameters.getProperty("top.hueEnd", "180")));
+            sldSatMin.setValue(Double.parseDouble( parameters.getProperty("top.satMin", "0")));
+            sldSatMax.setValue(Double.parseDouble( parameters.getProperty("top.satMax", "255")));
+            sldValMin.setValue(Double.parseDouble( parameters.getProperty("top.valMin", "0")));
+            sldValMax.setValue(Double.parseDouble( parameters.getProperty("top.valMax", "255")));
         }
     }
 

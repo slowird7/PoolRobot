@@ -1,0 +1,8 @@
+#
+#Fri Oct 23 00:26:50 JST 2020
+satMin=0.0
+hueBegin=0.0
+valMax=37.9054054054054
+satMax=255.0
+hueEnd=0.0
+valMin=4.3074324324324325
