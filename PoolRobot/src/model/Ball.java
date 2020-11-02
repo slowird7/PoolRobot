@@ -33,7 +33,7 @@ public class Ball {
     public static Ball[] balls;
     public static Ball cueBall;
     public static Mat ballMask;
-    public static final int NO_OF_BALLS = 10;
+    public static final int NO_OF_BALLS = 6;
     
     public static final double BallSize = 11;
     
