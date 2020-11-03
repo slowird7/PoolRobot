@@ -32,6 +32,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
@@ -135,6 +136,8 @@ public class MainWindowController implements Initializable {
     }
 
     @FXML
+    private ComboBox<String> selGame;
+    @FXML
     private AnchorPane mainWindow;
     @FXML
     private ToggleButton btnLayer;
@@ -171,16 +174,13 @@ public class MainWindowController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-
-        cbTarget.setItems(FXCollections.observableArrayList(1, 2, 3, 4, 5));
+        
         cbPocket.setItems(FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27));
+        selGame.setItems(FXCollections.observableArrayList("9Ball", "Bank"));
+        selGame.setValue("");
+        onSelGameSelected(null);
+        
         matResult = new Mat();
-        try {
-            tool = Tool.getInstance();
-        } catch (AWTException ex) {
-            System.out.println("Failed to create Robot.");
-            return;
-        }
 
         Screen.rectPoolWindow = tool.findPoolWindow();
         layerWindow = new Stage();
@@ -202,13 +202,6 @@ public class MainWindowController implements Initializable {
         theCue = new Cue();
 
         layerController.add(theCue);
-        Ball.initBalls();
-        for (Ball ball : Ball.balls) {
-            layerController.add(ball.contour);
-            layerController.add(ball.horz);
-            layerController.add(ball.vert);
-            layerController.add(ball.a);
-        }
         Pocket.initPockets();
         for (Pocket pocket : Pocket.realPockets) {
             layerController.add(pocket.rect);
@@ -231,6 +224,31 @@ public class MainWindowController implements Initializable {
             layerWindow.initOwner(mainWindow.getScene().getWindow());
         });
 
+    }
+
+    private void setupFor9BallGame() {
+        Ball.noOfBalls = 10;
+        Ball.initBalls(selGame.getValue());
+        cbTarget.setItems(FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9));
+        try {
+            tool = new Tool9Ball();
+        } catch (AWTException ex) {
+            System.out.println("Failed to create Robot.");
+            return;
+        }
+
+    }
+    
+    private void setupForBankPoolGame() {
+        Ball.noOfBalls = 6;
+        Ball.initBalls(selGame.getValue());
+        cbTarget.setItems(FXCollections.observableArrayList(1, 2, 3, 4, 5));
+        try {
+            tool = new ToolBank();
+        } catch (AWTException ex) {
+            System.out.println("Failed to create Robot.");
+            return;
+        }
     }
 
     private void pushMouseCursorPos() {
@@ -293,11 +311,11 @@ public class MainWindowController implements Initializable {
         System.out.println("makePlan.recognizeBallInTopView");
         Mat matScreen = Screen.getPoolMat();
         // for debug
-        for (int i = 0; i < Ball.NO_OF_BALLS; i++) {
+        for (int i = 0; i < Ball.noOfBalls; i++) {
             tool.recognizeBallInTopView(Ball.balls[i], matScreen, matResult);
             Imgcodecs.imwrite(String.format("dadada%d.png", i), matScreen);
         }
-/*
+
         System.out.println("makePlan.findExecutablePlans");
         List<Plan> plans = tool.findExecutablePlans();
         lstPlan.getItems().clear();
@@ -309,7 +327,7 @@ public class MainWindowController implements Initializable {
             System.out.println("makePlan.makeCall");
             makeCall();
         }
-*/
+
     }
 
     private void makeCall() {
@@ -340,6 +358,10 @@ public class MainWindowController implements Initializable {
     }
 
     private void aim() {
+        if (thePlan == null) {
+            new Alert(Alert.AlertType.WARNING, "No plan is selected.").showAndWait();
+            return;
+        }
         tool.aimInParseView(thePlan.ball, thePlan.offset, sldSpin.getValue(), txtConsole);
     }
 
@@ -356,6 +378,28 @@ public class MainWindowController implements Initializable {
     //=======================================================================
     // Event ahndler
     //=======================================================================
+    @FXML
+    private void onSelGameSelected(ActionEvent ev) {
+        if (selGame.getValue().startsWith("9Ball")) {
+            setupFor9BallGame();
+        } else if (selGame.getValue().startsWith("Bank")) {
+            setupForBankPoolGame();
+        } else {
+            try {
+               tool = new Tool();
+            } catch (AWTException ex) {
+               System.out.println("Failed to create Robot.");
+               return;
+           }
+       }
+//        for (Ball ball : Ball.balls) {
+//            layerController.add(ball.contour);
+//            layerController.add(ball.horz);
+//            layerController.add(ball.vert);
+//            layerController.add(ball.a);
+//        }
+   }
+    
     @FXML
     private void onBtnViewClicked(ActionEvent ev) {
         pushMouseCursorPos();
@@ -393,11 +437,11 @@ public class MainWindowController implements Initializable {
         captureScreen();
         if (Screen.isTopView()) {
             Mat matScreen = Screen.getPoolMat();
-            for (int i = 0; i < Ball.NO_OF_BALLS; i++) {
+            for (int i = 0; i < Ball.noOfBalls; i++) {
                 tool.recognizeBallInTopView(Ball.balls[i], matScreen, matResult);
             }
         } else {
-            for (int i = 0; i < Ball.NO_OF_BALLS; i++) {
+            for (int i = 0; i < Ball.noOfBalls; i++) {
                 tool.recognizeBallInParseView(Ball.balls[i], matResult);
             }
         }

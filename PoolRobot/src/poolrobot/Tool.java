@@ -57,20 +57,20 @@ import user32.JnaUtilException;
  */
 public class Tool extends Robot {
 
-    private static Tool INSTANCE;
-    private static final double MaxAngleOfIncidence = Math.PI / 4;  // 許容最大入射角
+    protected static final double MaxAngleOfIncidence = Math.PI / 4;  // 許容最大入射角
     //private static final double MinAngleOfIncidence = Math.PI / 16;  // 許容最小入射角
-    private static final double offsetTorelance = 0.5;
-    private static final double INITIALMOVE = 3;
-    private static final double InitialMouseMovementInPixel = 100;
-    private static final double offsetCorrectionFactor = 1.0;
-    private Pointer hWndPool;
+    protected static final double offsetTorelance = 0.5;
+    protected static final double INITIALMOVE = 3;
+    protected static final double InitialMouseMovementInPixel = 100;
+    protected static final double offsetCorrectionFactor = 1.0;
+    protected Pointer hWndPool;
     public int cpx, cpy;
+    protected static Tool INSTANCE;
 
     Mat imageHSV = new Mat();
     Mat imageResult = new Mat();
 
-    private Tool() throws AWTException {
+    protected Tool() throws AWTException {
         setAutoWaitForIdle(true);
 //    @Override
 //    public synchronized void mouseMove(int x, int y) { 
@@ -79,13 +79,10 @@ public class Tool extends Robot {
 //    }
     }
 
-    public static Tool getInstance() throws AWTException {
-        if (INSTANCE == null) {
-            INSTANCE = new Tool();
-        }
+    public static Tool getInstance() {
         return INSTANCE;
     }
-
+    
     public Rectangle findPoolWindow() {
         // find window titled "9-Ball Pool - Google Chrome".
         Rectangle poolWindow = null;
@@ -176,7 +173,7 @@ public class Tool extends Robot {
      * @param rayon
      * @return
      */
-    private void colorFilter(Mat matScreen, double hueBegin, double hueEnd, double satMin, double valMin, double satMax, double valMax) {
+    protected void colorFilter(Mat matScreen, double hueBegin, double hueEnd, double satMin, double valMin, double satMax, double valMax) {
         Imgproc.cvtColor(matScreen, imageHSV, Imgproc.COLOR_BGR2HSV);
         if (hueBegin <= hueEnd) {
             Core.inRange(imageHSV, new Scalar(hueBegin, satMin, valMin), new Scalar(hueEnd, satMax, valMax), imageResult);
@@ -497,7 +494,7 @@ public class Tool extends Robot {
         mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
     }
 
-    private Point2D calcMirrorPointOf(double x, double y, int bankSide) {
+    protected Point2D calcMirrorPointOf(double x, double y, int bankSide) {
         double mx = x, my = y;
         if ((bankSide & 1) == 1) {
             my = Pocket.TOP * 2 - y;
@@ -544,7 +541,7 @@ public class Tool extends Robot {
      * @return ballNo 障害となる球の番号
      */
     public int detectObstacleBallOnTheWayToTargetPoint(Point2D aimPoint, int targetBallNo) {
-        for (int ballNo = 1; ballNo < Ball.NO_OF_BALLS; ballNo++) {
+        for (int ballNo = 1; ballNo < Ball.noOfBalls; ballNo++) {
 // 2020.09.30 手玉から見て的玉の向こう側の面が狙い点となるケースがあるので、的玉との干渉もチェックしないといけない
 //            if (ballNo == targetBallNo) continue;
             Ball ball = Ball.balls[ballNo];
@@ -572,7 +569,7 @@ public class Tool extends Robot {
         // vec2Target : 的玉からポケットに向かうベクトル
         Point2D vec2Pocket = new Point2D(pocket.sx - target.sx, pocket.sy - target.sy);
 
-        for (int ballNo = 1; ballNo < Ball.NO_OF_BALLS; ballNo++) {
+        for (int ballNo = 1; ballNo < Ball.noOfBalls; ballNo++) {
             // ボールの鏡像を計算
 //            if (ballNo == targetBallNo) {
 //                continue;
@@ -665,120 +662,18 @@ public class Tool extends Robot {
     }
 
     public List<Plan> findExecutablePlans() {
-        List<Plan> plans = new ArrayList<Plan>();
-        double deviationMin = 999;
-        int theBestBallNo = -1;
-        int theBestPocketNo = -1;
-
-        for (int ballNo = 1; ballNo < Ball.NO_OF_BALLS; ballNo++) {
-            Ball ball = Ball.balls[ballNo];
-            if (ball.sx == 0 || ball.sy == 0) {
-                continue;
-            }
-            for (int pocketNo = 0; pocketNo < Pocket.NoOfImaginaryPockets; pocketNo++) {
-                Pocket pocket = Pocket.imaginaryPockets[pocketNo];
-                Plan thePlan = new Plan();
-                thePlan.ball = ball;
-                thePlan.pocket = pocket;
-                
-                if (isExecutablePlan(thePlan)) {
-                    evaluatePlan(thePlan);
-                    plans.add(thePlan);
-                }
-            }
-        }
-        plans.sort(new PlanComparator());
-        return plans;
+        return null;
     }
 
     public boolean isExecutablePlan(Plan thePlan) {
-        Pocket pocket = thePlan.pocket;
-        Ball ball = thePlan.ball;
-        double deviationMin;
-        
-        // check if the pocket is not imaginary one.
-        if (pocket.noOfBanks == 0) {
-            thePlan.available = false;
-            thePlan.cause = "no bank shot.";
-            return false;
-        }
-        if (!pocket.active) {
-            thePlan.available = false;
-            thePlan.cause = "not active.";
-            return false;
-        }
-        double pocketDir = Math.atan2(pocket.sy - ball.sy, pocket.sx - ball.sx);
-        // 狙い点と方向角を計算
-        Point2D aimPoint = calcAimPoint(Ball.cueBall, ball, pocket);
-        double aimDir = Math.atan2(aimPoint.getY() - Ball.cueBall.sy, aimPoint.getX() - Ball.cueBall.sx);
-        // ショットの偏向角
-        double deviation = pocketDir - aimDir;
-        while (deviation > Math.PI) {
-            deviation = deviation - 2 * Math.PI;
-        }
-        while (deviation <= -Math.PI) {
-            deviation = deviation + 2 * Math.PI;
-        }
-        if (Math.abs(deviation) >= Math.PI / 2) {
-            thePlan.available = false;
-            thePlan.cause = "OppositeSide";
-            return false;
-        }
-        
-        double offset = -  2 * Math.sin(deviation) * offsetCorrectionFactor;
-        // ポケットを正面から狙えるか
-        double incidenceAngle = pocketDir - pocket.faceAngle;
-        while (incidenceAngle > Math.PI) {
-            incidenceAngle -= Math.PI * 2;
-        }
-        while (incidenceAngle <= -Math.PI) {
-            incidenceAngle += Math.PI * 2;
-        }
-        // ポケットに対する入射角チェック。真正面はダメ。斜めもダメ。
-        if (Math.abs(incidenceAngle) > MaxAngleOfIncidence) {
-            thePlan.available = false;
-            thePlan.cause = "IncidentAngle";
-            return false;
-        }
-        // 狙い点までの間に障害となる球はあるか？
-        int obstacleBallNo = detectObstacleBallOnTheWayToTargetPoint(aimPoint, ball.ballNo);
-        if (obstacleBallNo > 0) {
-            thePlan.available = false;
-            thePlan.cause = "ObstacleBall#1";
-            return false;
-        }
-        // 的玉からポケットまでの間に障害となる球はあるか？
-        obstacleBallNo = Tool.this.detectObstacleBallOnTheWayToPocket(ball, pocket);
-        if (obstacleBallNo > 0 && obstacleBallNo != ball.ballNo) {
-            thePlan.available = false;
-            thePlan.cause = "ObstacleBall#2";
-            return false;
-        }
-        int pitfallNo = detectPitfallOnTheWayToPocket(ball, pocket);
-        if (pitfallNo > 0) {
-            thePlan.available = false;
-            thePlan.cause = "Pitfall";
-            return false;
-        }
-        
-        
-        
-        System.out.println(String.format("ball=%d pocket=%d dev.=%.2f", ball.ballNo, pocket.pocketNo, deviation));
-        deviationMin = Math.abs(deviation);
-        thePlan.aimPoint = aimPoint;
-        thePlan.deviation = deviation;
-        thePlan.offset = offset;
-        thePlan.incident = incidenceAngle;
-        Point2D d = new Point2D(pocket.sx - ball.sx, pocket.sy - ball.sy);
-        thePlan.distance = d.distance(Point2D.ZERO);
-        return true;
+        return false;
     }
-    
+
     public void evaluatePlan(Plan thePlan) {
         thePlan.score = 1000 * Math.sqrt(1-Math.abs(thePlan.offset)/2) / thePlan.distance;
     }
 
-    private class PlanComparator implements Comparator<Plan> {
+    protected class PlanComparator implements Comparator<Plan> {
 
         @Override
         public int compare(Plan p1, Plan p2) {

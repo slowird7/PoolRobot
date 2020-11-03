@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="PoolFilter_t.jar" size="12033" download="eager" />
+    <jar href="PoolFilter_t.jar" size="12581" download="eager" />
     <jar href="lib\jna-4.4.0.jar" size="1091208" download="eager" />
     <jar href="lib\jna-platform-4.4.0.jar" size="2281814" download="eager" />
     <jar href="lib\opencv-341.jar" size="423917" download="eager" />

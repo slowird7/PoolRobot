@@ -32,28 +32,26 @@ public class Ball {
     
     public static Ball[] balls;
     public static Ball cueBall;
-    public static Mat ballMask;
-    public static final int NO_OF_BALLS = 6;
+    public static final int NO_OF_BALLS = 11;
+    public static int noOfBalls = 6;
     
     public static final double BallSize = 11;
     
     public Properties prop;
     
-    public static void initBalls() {
-        balls = new Ball[NO_OF_BALLS];
+    public static void initBalls(String game) {
+        balls = new Ball[noOfBalls];
         Ball newBall;
-        for (int ballNo=0; ballNo < NO_OF_BALLS; ballNo++) {
-            newBall = new Ball(ballNo, 0., 0., 0., Integer.toString(ballNo), String.format("image/b%02d.png",ballNo));
+        for (int ballNo=0; ballNo < noOfBalls; ballNo++) {
+            newBall = new Ball(game, ballNo, 0., 0., 0., Integer.toString(ballNo), String.format("image/b%02d.png",ballNo));
             balls[ballNo] = newBall;
         }
         cueBall = balls[0];
-        ballMask = new Mat();
-        ballMask = imread("image/ballmask.png", 1);
 //        System.out.println("mask   :channels=" + ballMask.channels());
 //        System.out.println("cueBall:channels=" + cueBall.imageMat.channels());
     }
     
-    public Ball(int ballNo, double x, double y, double r, String label, String imageFile) {
+    public Ball(String game, int ballNo, double x, double y, double r, String label, String imageFile) {
         this.ballNo = ballNo;
         sx = x;
         sy = y;
@@ -79,7 +77,7 @@ public class Ball {
         vert.setStrokeWidth( 1 );
         prop = new Properties();
         try {
-            prop.load(new BufferedReader(new FileReader(String.format("parameter/ball/%d.txt", ballNo))));
+            prop.load(new BufferedReader(new FileReader(String.format("parameter/ball/%s/%d.txt", game, ballNo))));
         } catch (FileNotFoundException ex) {
             System.err.println("parameter file not found.");
         } catch (IOException ex) {

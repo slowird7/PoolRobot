@@ -68,7 +68,7 @@ public class Pocket {
         imaginaryPockets = new Pocket[NoOfImaginaryPockets];
         imaginaryPockets[ 0] = new Pocket( 0, true , CENTER + spanX * -3, TOP + spanY * -1.1  , 6, 2, 225);
         imaginaryPockets[ 1] = new Pocket( 1, true , CENTER + spanX * -2, TOP + spanY * -0.9  , 5, 2, 270);
-        imaginaryPockets[ 2] = new Pocket( 2, true , CENTER + spanX *  1, TOP + spanY * -1.1, 4, 1, 225);
+        imaginaryPockets[ 2] = new Pocket( 2, true , CENTER + spanX * -1, TOP + spanY * -1.1, 4, 1, 225);
         imaginaryPockets[ 3] = new Pocket( 3, true , CENTER + spanX *  0, TOP + spanY * -1.1, 5, 1, 270);
         imaginaryPockets[ 4] = new Pocket( 4, true , CENTER + spanX *  1, TOP + spanY * -1.1, 6, 1, 315);
         imaginaryPockets[ 5] = new Pocket( 5, true , CENTER + spanX *  2, TOP + spanY * -0.9, 5, 2, 270);

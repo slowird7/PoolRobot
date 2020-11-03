@@ -22,7 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -31,10 +33,12 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Point3D;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -81,7 +85,12 @@ public class MainWindowController implements Initializable {
     @FXML
     private Button btnSaveAs;
     @FXML
-    private ToggleButton btnParse;
+    private RadioButton btnParseView;
+    @FXML
+    private RadioButton btnTopView;
+    @FXML
+    private ToggleGroup group;
+
     
     @FXML
     private TextField txtHueBegin;
@@ -131,6 +140,7 @@ public class MainWindowController implements Initializable {
     File imageFile;
     File parameterFile;
     Properties parameters;
+    BooleanProperty isParseView = new SimpleBooleanProperty(false);
     ArrayList<Circle> circles = new ArrayList();
     
     @Override
@@ -148,6 +158,10 @@ public class MainWindowController implements Initializable {
         imageHSV = new Mat();
         imageResult = new Mat();
         parameters = new Properties();
+        
+        group = new ToggleGroup();
+        btnTopView.setToggleGroup(group);
+        btnParseView.setToggleGroup(group);
         
     }    
 
@@ -227,7 +241,8 @@ public class MainWindowController implements Initializable {
     }
     
     @FXML
-    private void onBtnParseClicked(ActionEvent ev) {
+    private void onViewSelecterClicked(ActionEvent ev) {
+        switchParameter();
         updateImage();
 
     }
@@ -239,7 +254,11 @@ public class MainWindowController implements Initializable {
             // ファイル読み込みに失敗
             System.out.println(String.format("ファイルの読み込みに失敗しました。ファイル名:%s", parameterFile.getAbsoluteFile()));
         }
-        if (btnParse.isSelected()) {
+        switchParameter();
+    }
+
+    private void switchParameter() throws NumberFormatException {
+        if (btnParseView.isSelected()) {
             sldHueBegin.setValue(Double.parseDouble( parameters.getProperty("parse.hueBegin", "0")));
             sldHueEnd.setValue(Double.parseDouble( parameters.getProperty("parse.hueEnd", "180")));
             sldSatMin.setValue(Double.parseDouble( parameters.getProperty("parse.satMin", "0")));
@@ -257,12 +276,21 @@ public class MainWindowController implements Initializable {
     }
 
     private void saveParameter(File parameterFile) {
-        parameters.setProperty("hueBegin", Double.toString(sldHueBegin.getValue()));
-        parameters.setProperty("hueEnd", Double.toString(sldHueEnd.getValue()));
-        parameters.setProperty("satMin", Double.toString(sldSatMin.getValue()));
-        parameters.setProperty("satMax", Double.toString(sldSatMax.getValue()));
-        parameters.setProperty("valMin", Double.toString(sldValMin.getValue()));
-        parameters.setProperty("valMax", Double.toString(sldValMax.getValue()));
+        if (isParseView.get()) {
+            parameters.setProperty("parse.hueBegin", Double.toString(sldHueBegin.getValue()));
+            parameters.setProperty("parse.hueEnd", Double.toString(sldHueEnd.getValue()));
+            parameters.setProperty("parse.satMin", Double.toString(sldSatMin.getValue()));
+            parameters.setProperty("parse.satMax", Double.toString(sldSatMax.getValue()));
+            parameters.setProperty("parse.valMin", Double.toString(sldValMin.getValue()));
+            parameters.setProperty("parse.valMax", Double.toString(sldValMax.getValue()));
+        } else {
+            parameters.setProperty("top.hueBegin", Double.toString(sldHueBegin.getValue()));
+            parameters.setProperty("top.hueEnd", Double.toString(sldHueEnd.getValue()));
+            parameters.setProperty("top.satMin", Double.toString(sldSatMin.getValue()));
+            parameters.setProperty("top.satMax", Double.toString(sldSatMax.getValue()));
+            parameters.setProperty("top.valMin", Double.toString(sldValMin.getValue()));
+            parameters.setProperty("top.valMax", Double.toString(sldValMax.getValue()));
+        }
         try(FileOutputStream f = new FileOutputStream(parameterFile);
             BufferedOutputStream b = new BufferedOutputStream(f)){
             parameters.store(b, "");

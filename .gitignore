@@ -27,3 +27,44 @@ PoolRobot/dist/run1022048897/PoolRobot.jar
 PoolRobot/dist/run1022048897/PoolRobot.jnlp
 PoolRobot/dist/run1022048897/PoolRobot.log
 *.png
+PoolFilter_t/build.xml
+PoolFilter_t/build/built-jar.properties
+PoolFilter_t/build/classes/poolfilter_t/MainWindow.fxml
+PoolFilter_t/build/classes/poolfilter_t/MainWindowController$1.class
+PoolFilter_t/build/classes/poolfilter_t/MainWindowController.class
+PoolFilter_t/dist/lib/jna-4.4.0.jar
+PoolFilter_t/dist/lib/jna-platform-4.4.0.jar
+PoolFilter_t/dist/lib/opencv-341.jar
+PoolFilter_t/dist/PoolFilter_t.html
+PoolFilter_t/dist/PoolFilter_t.jar
+PoolFilter_t/dist/PoolFilter_t.jnlp
+PoolRobot/build/built-jar.properties
+PoolRobot/build/classes/model/Ball.class
+*.class
+PoolRobot/dist/opencv_java341.dll
+PoolRobot/dist/opencv_world341.dll
+PoolRobot/dist/PoolRobot.html
+PoolRobot/dist/PoolRobot.jar
+PoolRobot/dist/PoolRobot.jnlp
+PoolRobot/dist/PoolRobot.log
+PoolRobot/dist/run1022048897/lib/jna-4.4.0.jar
+PoolRobot/dist/run1022048897/lib/jna-platform-4.4.0.jar
+PoolRobot/dist/run1022048897/lib/opencv-341.jar
+PoolRobot/dist/run1022048897/opencv_java341.dll
+PoolRobot/dist/run1022048897/opencv_world341.dll
+PoolRobot/dist/run1022048897/PoolRobot.html
+PoolRobot/dist/run1022048897/PoolRobot.jar
+PoolRobot/dist/run1022048897/PoolRobot.jnlp
+PoolRobot/dist/run1022048897/PoolRobot.log
+PoolRobot/parameter - コピー/ball/0.txt
+PoolRobot/parameter - コピー/ball/1.txt
+PoolRobot/parameter - コピー/ball/2.txt
+PoolRobot/parameter - コピー/ball/3.txt
+PoolRobot/parameter - コピー/ball/4.txt
+PoolRobot/parameter - コピー/ball/5.txt
+PoolRobot/parameter - コピー/ball/6.txt
+PoolRobot/parameter - コピー/ball/7.txt
+PoolRobot/parameter - コピー/ball/8.txt
+PoolRobot/parameter - コピー/ball/9.txt
+*.1
+*.lck

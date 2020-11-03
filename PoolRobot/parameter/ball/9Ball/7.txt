@@ -1,0 +1,14 @@
+#
+#Mon Oct 19 00:13:25 JST 2020
+top.satMin=61.16554054054049
+top.valMax=105.10135135135134
+top.hueBegin=0.0
+top.satMax=255.0
+top.hueEnd=4.864864864864858
+top.valMin=65.47297297297298
+parse.satMin=61.16554054054049
+parse.valMax=105.10135135135134
+parse.hueBegin=0.0
+parse.satMax=255.0
+parse.hueEnd=4.864864864864858
+parse.valMin=65.47297297297298

@@ -2,10 +2,12 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -28,7 +30,7 @@
       <Label layoutX="16.0" layoutY="6.0" text="project" />
       <Button fx:id="btnLoad" layoutX="201.0" layoutY="2.0" mnemonicParsing="false" onAction="#onBtLoadImageClicked" text="LoadImage" />
       <Button fx:id="btnSave" layoutX="318.0" layoutY="2.0" mnemonicParsing="false" onAction="#onBtSaveClicked" text="Save" />
-      <ScrollPane layoutY="236.0" prefHeight="155.0" prefWidth="463.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="236.0">
+      <ScrollPane layoutX="14.0" layoutY="235.0" prefHeight="155.0" prefWidth="463.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="-14.0" AnchorPane.topAnchor="235.0">
          <content>
             <Pane fx:id="sp" prefHeight="149.0" prefWidth="419.0">
                <children>
@@ -51,6 +53,11 @@
       <Slider fx:id="sldParam2" blockIncrement="2.0" layoutX="137.0" layoutY="215.0" max="60.0" prefHeight="14.0" prefWidth="893.0" value="30.0" />
       <Label layoutX="16.0" layoutY="214.0" text="Param2" />
       <TextField fx:id="txtParam2" alignment="CENTER_RIGHT" layoutX="81.0" layoutY="210.0" prefHeight="25.0" prefWidth="47.0" />
-      <ToggleButton fx:id="btnParse" layoutX="410.0" layoutY="2.0" mnemonicParsing="false" onAction="#onBtnParseClicked" text="Parse" />
+      <RadioButton fx:id="btnTopView" layoutX="423.0" layoutY="6.0" mnemonicParsing="false" onAction="#onViewSelecterClicked" selected="true" text="Top View">
+         <toggleGroup>
+            <ToggleGroup fx:id="group" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="btnParseView" layoutX="510.0" layoutY="6.0" mnemonicParsing="false" onAction="#onViewSelecterClicked" text="Parse View" toggleGroup="$group" />
    </children>
 </AnchorPane>

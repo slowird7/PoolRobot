@@ -56,15 +56,10 @@ public class Screen {
         matOpenBreakShot = imread("image/OpenBreakShot.png");
         matFrameOver = imread("image/FrameOver.png");
         bounds = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-        try {
-            tool = Tool.getInstance();
-        } catch (AWTException ex) {
-            ex.printStackTrace();
-        }
     }
     
     public static Mat getScreenMat() {
-            BufferedImage imageScreen = tool.createScreenCapture(bounds);
+            BufferedImage imageScreen = Tool.getInstance().createScreenCapture(bounds);
             return bufferedImage2Mat(imageScreen);
     }
     
@@ -133,7 +128,7 @@ public class Screen {
     }
     
     public static void undo() {
-        tool.clickButton(btnUndo);
+        Tool.getInstance().clickButton(btnUndo);
     }
     
     public static boolean isTopView() {
@@ -152,13 +147,13 @@ public class Screen {
     
     public static void switchToPerseView() {
         if (isTopView()) {
-            tool.clickButton(btnSwitchView);
+            Tool.getInstance().clickButton(btnSwitchView);
         }
     }
     
     public static void switchToTopView() {
         if (!isTopView()) {
-            tool.clickButton(btnSwitchView);
+            Tool.getInstance().clickButton(btnSwitchView);
         }
     }
     

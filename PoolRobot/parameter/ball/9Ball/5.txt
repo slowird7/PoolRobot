@@ -1,0 +1,14 @@
+#
+#Thu Aug 13 14:59:44 JST 2020
+top.satMin=213.64864864864867
+top.hueBegin=14.162162162162161
+top.valMax=255.0
+top.satMax=255.0
+top.hueEnd=14.770270270270188
+top.valMin=55.135135135135144
+parse.satMin=213.64864864864867
+parse.hueBegin=14.162162162162161
+parse.valMax=255.0
+parse.satMax=255.0
+parse.hueEnd=14.770270270270188
+parse.valMin=55.135135135135144
